@@ -61,4 +61,4 @@ Each folder focuses on a specific area of Kubernetes engineering, from **CI/CD p
 1. Clone this repo:  
    ```bash
    git clone https://github.com/jagkt/k8s-projects-hub.git
-   cd K8s_project_hub
+   cd k8s-project-hub
