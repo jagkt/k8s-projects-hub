@@ -1,6 +1,6 @@
-# 🌐 K8s_project_hub
+# 🌐 K8s_projects_hub
 
-Welcome to **K8s_project_hub** — _a collection of my **practical Kubernetes projects** organized by topic._  
+Welcome to **k8s_projects_hub:** _a collection of my **practical Kubernetes projects** organized by topic._  
 This repo acts as a **hub of hands-on labs** where I explore how to design, deploy, and manage cloud-native systems using Kubernetes.  
 
 Each folder focuses on a specific area of Kubernetes engineering, from **CI/CD pipelines** to **service mesh**, **multi-cluster management**, **operators**, and beyond.  
@@ -60,5 +60,5 @@ Each folder focuses on a specific area of Kubernetes engineering, from **CI/CD p
 
 1. Clone this repo:  
    ```bash
-   git clone https://github.com/jagkt/K8s_project_hub.git
+   git clone https://github.com/jagkt/k8s_projects_hub.git
    cd K8s_project_hub
