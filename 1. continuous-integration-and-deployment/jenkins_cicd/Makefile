@@ -13,12 +13,12 @@ all: test build docker push deploy
 
 ## Run unit tests with Mocha
 test:
-	@echo "✅ Running unit tests..."
+	@echo "Running unit tests..."
 	cd app && npm install && npm test
 
 ## Run SonarQube code analysis
 sonar:
-	@echo "🔍 Running SonarQube analysis..."
+	@echo "Running SonarQube analysis..."
 	cd app && sonar-scanner \
 	  -Dsonar.projectKey=$(SONAR_PROJECT_KEY) \
 	  -Dsonar.sources=. \
@@ -27,29 +27,29 @@ sonar:
 
 ## Build the Node.js app Docker image
 build:
-	@echo "📦 Building Docker image..."
+	@echo "Building Docker image..."
 	docker build -t $(DOCKER_REGISTRY)/$(APP_NAME):$(IMAGE_TAG) app/
 
 ## Push Docker image to registry
 push:
-	@echo "⬆️ Pushing Docker image..."
+	@echo "Pushing Docker image..."
 	docker push $(DOCKER_REGISTRY)/$(APP_NAME):$(IMAGE_TAG)
 
 ## Deploy to Kubernetes
 deploy:
-	@echo "🚀 Deploying to Kubernetes..."
+	@echo "Deploying to Kubernetes..."
 	kubectl apply -f $(K8S_DIR)/deployment.yaml -n $(K8S_NAMESPACE)
 	kubectl apply -f $(K8S_DIR)/service.yaml -n $(K8S_NAMESPACE)
 
 ## Setup Monitoring (Prometheus + Grafana)
 monitoring:
-	@echo "📊 Setting up monitoring stack..."
+	@echo "Setting up monitoring stack..."
 	kubectl apply -f infra/monitoring/prometheus.yaml -n monitoring
 	kubectl apply -f infra/monitoring/grafana.yaml -n monitoring
 
 ## Clean Kubernetes resources
 clean:
-	@echo "🧹 Cleaning Kubernetes resources..."
+	@echo "Cleaning Kubernetes resources..."
 	kubectl delete -f $(K8S_DIR)/deployment.yaml -n $(K8S_NAMESPACE) || true
 	kubectl delete -f $(K8S_DIR)/service.yaml -n $(K8S_NAMESPACE) || true
 

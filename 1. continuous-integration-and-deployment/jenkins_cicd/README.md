@@ -1,4 +1,4 @@
-# 🚀 Kubernetes Project Hub – CI/CD with Jenkins, Node.js, SonarQube, Prometheus, Grafana
+# CI/CD with Jenkins, Node.js, SonarQube, Prometheus, Grafana
 
 This repo contains a full CI/CD pipeline for a Node.js app deployed on Kubernetes with Jenkins, SonarQube, Prometheus, and Grafana.
 
