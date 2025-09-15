@@ -231,7 +231,7 @@ pipeline {
     }
 }
 
-🚀 Step 8: Monitoring
+#### Step 8: Monitoring
 
 Access Grafana:
 
