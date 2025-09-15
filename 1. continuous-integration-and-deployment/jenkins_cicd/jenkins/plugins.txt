@@ -1,0 +1,7 @@
+kubernetes
+workflow-aggregator
+git
+docker-workflow
+sonar
+blueocean
+credentials-binding

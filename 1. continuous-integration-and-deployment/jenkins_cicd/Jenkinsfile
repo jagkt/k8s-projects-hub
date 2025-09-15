@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    tools {
+        nodejs "NodeJS"
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/<your-repo>/nodejs-k8s-app.git'
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                sh 'npm install'
+                sh 'npm test'
+            }
+        }
+        stage('Code Quality') {
+            steps {
+                sh 'sonar-scanner \
+                    -Dsonar.projectKey=nodejs-app \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://sonarqube:9000 \
+                    -Dsonar.login=<sonar-token>'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t <your-dockerhub-user>/nodejs-k8s:latest .'
+            }
+        }
+        stage('Push Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    sh 'docker push <your-dockerhub-user>/nodejs-k8s:latest'
+                }
+            }
+        }
+        stage('Deploy to K8s') {
+            steps {
+                sh 'kubectl apply -f k8s/node-deploy.yaml'
+            }
+        }
+    }
+    post {
+        success {
+            echo "Deployment successful!"
+        }
+        failure {
+            echo "Pipeline failed!"
+        }
+    }
+}
