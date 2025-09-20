@@ -48,8 +48,8 @@ deploy:
 ## Setup Monitoring (Prometheus + Grafana)
 # monitoring:
 # 	@echo "Setting up monitoring stack..."
-# 	kubectl apply -f monitoring/prometheus.yaml -n monitoring
-# 	kubectl apply -f monitoring/grafana.yaml -n monitoring
+# 	kubectl apply -f $(MONITORING_DIR)/prometheus.yaml -n monitoring
+# 	kubectl apply -f (MONITORING_DIR)/grafana.yaml -n monitoring
 
 # Install or upgrade Prometheus + Grafana via Helm
 monitoring-install:

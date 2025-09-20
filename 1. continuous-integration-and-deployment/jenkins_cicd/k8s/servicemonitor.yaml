@@ -8,6 +8,9 @@ spec:
   selector:
     matchLabels:
       app: nodejs-app
+  namespaceSelector:
+    matchNames:
+      - default 
   endpoints:
     - port: http
       path: /metrics
