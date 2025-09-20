@@ -3,7 +3,7 @@ kind: ServiceMonitor
 metadata:
   name: nodejs-servicemonitor
   labels:
-    release: prometheus
+    release: monitoring     #prometheus
 spec:
   selector:
     matchLabels:
