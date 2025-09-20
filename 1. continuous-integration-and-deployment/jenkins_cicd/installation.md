@@ -1,5 +1,5 @@
 # CI/CD pipeline with Jenkins Instalation Steps:
-To better understand how these processes were set up, the following will provide a step-by-step guide to the implementation of this project on:
+To better understand the sett up of this project, the following will provide a step-by-step manual guide to the implementation of this project on:
 - Builds & tests a Node.js app with Mocha
 - Runs SonarQube for code quality checks
 - Deploys to your Kubernetes cluster
