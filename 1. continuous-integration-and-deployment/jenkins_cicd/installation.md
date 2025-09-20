@@ -87,7 +87,7 @@ helm install monitoring prometheus-community/kube-prometheus-stack
 helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
 		-f helm/kube-prometheus-values.yaml \
 		-n monitoring --create-namespace
-    
+
 kubectl get svc -n monitoring
 kubectl port-forward svc/monitoring-grafana -n monitoring 3000:80
 ```
