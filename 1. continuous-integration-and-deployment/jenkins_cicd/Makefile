@@ -13,7 +13,7 @@ MONITORING_DIR = monitoring
 
 
 # Default target
-all: test build docker push deploy
+all: test build push deploy
 
 ## Run unit tests with Mocha
 test:
@@ -75,4 +75,4 @@ clean:
 	kubectl delete -f $(K8S_DIR)/deployment.yaml -n $(K8S_NAMESPACE) || true
 	kubectl delete -f $(K8S_DIR)/service.yaml -n $(K8S_NAMESPACE) || true
 
-.PHONY: all test sonar build push deploy monitoring clean
+.PHONY: all test sonar build push deploy monitoring-install monitoring-apply clean monitoring-delete
