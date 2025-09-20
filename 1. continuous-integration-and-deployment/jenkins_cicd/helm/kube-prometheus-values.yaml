@@ -1,0 +1,66 @@
+# ✅ Minimal tuned config for 3-node alpine VM lab
+# Saves memory/CPU and exposes Grafana + Prometheus via NodePort
+
+grafana:
+  adminPassword: admin
+  service:
+    type: NodePort
+    nodePort: 32000   # access Grafana at http://<node-ip>:32000
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+    limits:
+      memory: 256Mi
+      cpu: 250m
+  persistence:
+    enabled: false   # disable persistence to save disk space
+
+prometheus:
+  prometheusSpec:
+    retention: 12h   # short retention to save space
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 250m
+  service:
+    type: NodePort
+    nodePort: 30900   # access Prometheus at http://<node-ip>:30900
+  persistence:
+    enabled: false   # disable PVCs for lab simplicity
+
+alertmanager:
+  enabled: false  # disabled to reduce resource usage in lab
+
+kubeStateMetrics:
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 100m
+
+nodeExporter:
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 100m
+
+# Disable some extra components to keep it lightweight
+defaultRules:
+  create: true
+  rules:
+    alertmanager: false
+    etcd: false
+    kubeApiserver: true
+    kubeScheduler: true
+    kubeControllerManager: true
+    kubeProxy: false
+    kubelet: true

@@ -7,7 +7,7 @@ To better understand how these processes were set up, the following will provide
 
 ---
 
-### Step 1: Prerequisites
+## Step 1: Prerequisites
 On your Windows 11 host, 
 VMware with 3 Alpine Linux VMs
 
@@ -33,7 +33,7 @@ Access Jenkins via:
 
 ---
 
-#### Step 2: Install SonarQube on Kubernetes
+## Step 2: Install SonarQube on Kubernetes
 ##### sonar-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -75,20 +75,62 @@ Expose via NodePort if you want external access.
 
 
 
-#### Step 3: Install Prometheus + Grafana
+## Step 3: Install Prometheus + Grafana
 
 Use kube-prometheus-stack (Helm):
-
+```bash
 apk add helm
+
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 helm install monitoring prometheus-community/kube-prometheus-stack
+helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
+		-f helm/kube-prometheus-values.yaml \
+		-n monitoring --create-namespace
+    
+kubectl get svc -n monitoring
+kubectl port-forward svc/monitoring-grafana -n monitoring 3000:80
+```
+Now open http://localhost:3000
 
+Default Grafana credentials (from Helm chart):
+User: admin
+Password: run:
+
+kubectl get secret -n monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+3. Access Prometheus
+kubectl port-forward svc/monitoring-kube-prometheus-prometheus -n monitoring 9090:9090
+Now open http://localhost:9090
+
+Expose with NodePort or Ingress:
+If you don’t want to keep port-forwarding:
+kubectl patch svc monitoring-grafana -n monitoring \
+  -p '{"spec": {"type": "NodePort"}}'
+
+kubectl patch svc monitoring-kube-prometheus-prometheus -n monitoring \
+  -p '{"spec": {"type": "NodePort"}}'
+
+If you want to set a fixed NodePort, edit the service instead of patching:
+
+
+check the nodeport:
+kubectl get svc monitoring-grafana -n monitoring
+kubectl get svc monitoring-kube-prometheus-prometheus
 
 This deploys Prometheus, Grafana, Alertmanager.
+kubectl edit svc monitoring-kube-prometheus-prometheus -n monitoring
+<!-- spec:
+  type: NodePort
+  ports:
+  - name: http-web
+    port: 9090
+    targetPort: 9090
+    nodePort: 30900   #  fixed NodePort -->
 
 
-#### Step 4: Node.js Sample App
+---
+## Step 4: Node.js Sample App
 
 app.js
 
