@@ -1,7 +1,8 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: nodejs-servicemonitor
+  name: nodejs-app-monitor
+  namespace: default
   labels:
     release: monitoring     #prometheus
 spec:
@@ -12,6 +13,6 @@ spec:
     matchNames:
       - default 
   endpoints:
-    - port: http
+    - port: http-metrics
       path: /metrics
       interval: 15s

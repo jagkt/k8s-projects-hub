@@ -83,7 +83,7 @@ apk add helm
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install monitoring prometheus-community/kube-prometheus-stack
+#helm install monitoring prometheus-community/kube-prometheus-stack
 helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
 		-f helm/kube-prometheus-values.yaml \
 		-n monitoring --create-namespace
