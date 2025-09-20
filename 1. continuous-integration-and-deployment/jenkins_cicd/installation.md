@@ -1,44 +1,37 @@
-### CI/CD pipeline using Jenkins that:
+# CI/CD pipeline with Jenkins Instalation Steps:
+To better understand how these processes were set up, the following will provide a step-by-step guide to the implementation of this project on:
+- Builds & tests a Node.js app with Mocha
+- Runs SonarQube for code quality checks
+- Deploys to your Kubernetes cluster
+- Monitors with Prometheus + Grafana
 
-_ Builds & tests a Node.js app with Mocha
+---
 
-_ Runs SonarQube for code quality checks
-
-_ Deploys to your Kubernetes cluster
-
-_Monitors with Prometheus + Grafana
-
-#### Step 1: Prerequisites
-On your Windows 11 host
-
+### Step 1: Prerequisites
+On your Windows 11 host, 
 VMware with 3 Alpine Linux VMs
 
 Cluster:
-
-Master VM → kubeadm, 2GB RAM
-
+Master VM → kubeadm, 3GB RAM
 Worker nodes → 4GB each
-
-Kubernetes installed (kubeadm init, kubeadm join, etc.)
-
+Kubernetes installed (kubeadm init, kubeadm join, etc.), kubernetes verion=1.29.0
 kubectl configured on master
 
 On master node
-apk add openjdk11 maven nodejs npm docker git
-
+apk add openjdk16 maven nodejs npm docker git
 
 Install Jenkins:
-
 apk add jenkins
 rc-update add jenkins
 rc-service jenkins start
 
-install
+install Make:
 apk add make
-
 
 Access Jenkins via:
 http://<master-ip>:8080
+
+---
 
 #### Step 2: Install SonarQube on Kubernetes
 ##### sonar-deployment.yaml
