@@ -12,28 +12,24 @@ On your Windows 11 host,
 VMware with 3 Alpine Linux VMs
 
 Cluster:
-
--- Master VM → kubeadm, 3GB RAM
--- Worker nodes → 4GB each
--- Kubernetes installed (kubeadm init, kubeadm join, etc.), kubernetes verion=1.29.0
--- kubectl configured on master
+- Master VM → kubeadm, 3GB RAM
+- Worker nodes → 4GB each
+- Kubernetes installed (kubeadm init, kubeadm join, etc.), kubernetes verion=1.29.0
+- kubectl configured on master
 
 On master node
-
-apk add openjdk16 maven nodejs npm docker git
+- apk add openjdk16 maven nodejs npm docker git
 
 Install Jenkins:
-
-apk add jenkins
-rc-update add jenkins
-rc-service jenkins start
+- apk add jenkins
+- rc-update add jenkins
+- rc-service jenkins start
 
 install Make:
-
-apk add make
+- apk add make
 
 Access Jenkins via:
-http://<master-ip>:8080
+- http://<master-ip>:8080
 
 ---
 
