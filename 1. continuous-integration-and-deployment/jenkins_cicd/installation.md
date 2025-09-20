@@ -133,7 +133,7 @@ kubectl edit svc monitoring-kube-prometheus-prometheus -n monitoring
 ## Step 4: Node.js Sample App
 
 app.js
-
+```js
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -143,10 +143,10 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => console.log(`App running on port ${port}`));
-
+```
 
 test/test.js
-
+```js
 const assert = require("assert");
 
 describe("Sample Test", () => {
@@ -154,29 +154,29 @@ describe("Sample Test", () => {
     assert.equal(1, 1);
   });
 });
-
+```
 
 #### Step 5: Dockerize App
 
 Dockerfile
-
+```bash
 FROM node:16
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
 CMD ["node", "app.js"]
-
+```
 
 Build + push to Docker Hub:
-
+```bash
 docker build -t <your-dockerhub-user>/nodejs-k8s:latest .
 docker push <your-dockerhub-user>/nodejs-k8s:latest
-
+```
 #### Step 6: Kubernetes Deployment for Node.js App
 
 node-deploy.yaml
-
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -208,12 +208,12 @@ spec:
     - port: 80
       targetPort: 3000
   type: NodePort
-
+```
 
 #### Step 7: Jenkins Pipeline
 
 Jenkinsfile
-
+```groovy
 pipeline {
     agent any
     tools {
@@ -268,13 +268,13 @@ pipeline {
         }
     }
 }
-
+```
 #### Step 8: Monitoring
 
 Access Grafana:
-
+```bash
 kubectl port-forward svc/monitoring-grafana 3000:80
-
+```
 
 Login with admin/prom-operator
 
