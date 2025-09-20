@@ -5,7 +5,7 @@ IMAGE_TAG=latest
 K8S_NAMESPACE=default
 
 # Paths
-K8S_DIR=infra/k8s
+K8S_DIR=k8s
 SONAR_PROJECT_KEY=nodejs-app
 
 # Default target
