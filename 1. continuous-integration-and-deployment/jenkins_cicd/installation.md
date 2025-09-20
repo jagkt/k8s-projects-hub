@@ -18,15 +18,21 @@ Cluster:
 - kubectl configured on master
 
 On master node
+```bash
 - apk add openjdk16 maven nodejs npm docker git
+```
 
 Install Jenkins:
+```bash
 - apk add jenkins
 - rc-update add jenkins
 - rc-service jenkins start
+```
 
 install Make:
+```bash
 - apk add make
+```
 
 Access Jenkins via:
 - http://<master-ip>:8080
@@ -35,6 +41,8 @@ Access Jenkins via:
 
 ## Step 2: Install SonarQube on Kubernetes
 ##### sonar-deployment.yaml
+
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -65,14 +73,14 @@ spec:
   ports:
     - port: 9000
       targetPort: 9000
-
+```
 
 Apply it:
-
+```bash
 kubectl apply -f sonar-deployment.yaml
 
 Expose via NodePort if you want external access.
-
+```
 
 
 ## Step 3: Install Prometheus + Grafana
@@ -96,30 +104,37 @@ Now open http://localhost:3000
 Default Grafana credentials (from Helm chart):
 User: admin
 Password: run:
-
+```bash
 kubectl get secret -n monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
 
 3. Access Prometheus
+```bash
 kubectl port-forward svc/monitoring-kube-prometheus-prometheus -n monitoring 9090:9090
 Now open http://localhost:9090
+```
 
 Expose with NodePort or Ingress:
 If you don’t want to keep port-forwarding:
+```bash
 kubectl patch svc monitoring-grafana -n monitoring \
   -p '{"spec": {"type": "NodePort"}}'
 
 kubectl patch svc monitoring-kube-prometheus-prometheus -n monitoring \
   -p '{"spec": {"type": "NodePort"}}'
+```
 
-If you want to set a fixed NodePort, edit the service instead of patching:
-
-
+If you want to set a fixed NodePort, edit the service instead of patching.
 check the nodeport:
+```bash
 kubectl get svc monitoring-grafana -n monitoring
 kubectl get svc monitoring-kube-prometheus-prometheus
+```
 
 This deploys Prometheus, Grafana, Alertmanager.
+```bash
 kubectl edit svc monitoring-kube-prometheus-prometheus -n monitoring
+```
 <!-- spec:
   type: NodePort
   ports:
@@ -128,8 +143,8 @@ kubectl edit svc monitoring-kube-prometheus-prometheus -n monitoring
     targetPort: 9090
     nodePort: 30900   #  fixed NodePort -->
 
-
 ---
+
 ## Step 4: Node.js Sample App
 
 app.js
@@ -155,8 +170,9 @@ describe("Sample Test", () => {
   });
 });
 ```
+---
 
-#### Step 5: Dockerize App
+## Step 5: Dockerize App
 
 Dockerfile
 ```bash
@@ -173,7 +189,10 @@ Build + push to Docker Hub:
 docker build -t <your-dockerhub-user>/nodejs-k8s:latest .
 docker push <your-dockerhub-user>/nodejs-k8s:latest
 ```
-#### Step 6: Kubernetes Deployment for Node.js App
+
+---
+
+## Step 6: Kubernetes Deployment for Node.js App
 
 node-deploy.yaml
 ```yaml
@@ -210,7 +229,9 @@ spec:
   type: NodePort
 ```
 
-#### Step 7: Jenkins Pipeline
+---
+
+## Step 7: Jenkins Pipeline
 
 Jenkinsfile
 ```groovy
@@ -269,7 +290,9 @@ pipeline {
     }
 }
 ```
-#### Step 8: Monitoring
+---
+
+## Step 8: Monitoring
 
 Access Grafana:
 ```bash
