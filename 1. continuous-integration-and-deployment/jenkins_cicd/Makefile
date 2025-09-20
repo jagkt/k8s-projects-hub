@@ -53,6 +53,7 @@ deploy:
 
 # Install or upgrade Prometheus + Grafana via Helm
 monitoring-install:
+	@echo "Setting up monitoring stack..."
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	helm repo update
 	helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
@@ -61,6 +62,7 @@ monitoring-install:
 
 # Apply custom ServiceMonitor / PrometheusRule configs
 monitoring-apply:
+	@echo "Deploying nodejs-app service monitor"
 	kubectl apply -f $(K8S_DIR)/servicemonitor.yaml
 
 # Delete monitoring stack
