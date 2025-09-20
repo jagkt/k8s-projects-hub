@@ -1,12 +1,12 @@
 ### CI/CD pipeline using Jenkins that:
 
-Builds & tests a Node.js app with Mocha
+_ Builds & tests a Node.js app with Mocha
 
-Runs SonarQube for code quality checks
+_ Runs SonarQube for code quality checks
 
-Deploys to your Kubernetes cluster
+_ Deploys to your Kubernetes cluster
 
-Monitors with Prometheus + Grafana
+_Monitors with Prometheus + Grafana
 
 #### Step 1: Prerequisites
 On your Windows 11 host
@@ -32,6 +32,9 @@ Install Jenkins:
 apk add jenkins
 rc-update add jenkins
 rc-service jenkins start
+
+install
+apk add make
 
 
 Access Jenkins via:
