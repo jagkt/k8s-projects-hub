@@ -8,6 +8,10 @@ K8S_NAMESPACE=default
 K8S_DIR=k8s
 SONAR_PROJECT_KEY=nodejs-app
 
+# Directory for monitoring manifests
+MONITORING_DIR = monitoring
+
+
 # Default target
 all: test build docker push deploy
 
@@ -42,10 +46,28 @@ deploy:
 	kubectl apply -f $(K8S_DIR)/service.yaml -n $(K8S_NAMESPACE)
 
 ## Setup Monitoring (Prometheus + Grafana)
-monitoring:
-	@echo "Setting up monitoring stack..."
-	kubectl apply -f infra/monitoring/prometheus.yaml -n monitoring
-	kubectl apply -f infra/monitoring/grafana.yaml -n monitoring
+# monitoring:
+# 	@echo "Setting up monitoring stack..."
+# 	kubectl apply -f monitoring/prometheus.yaml -n monitoring
+# 	kubectl apply -f monitoring/grafana.yaml -n monitoring
+
+# Install or upgrade Prometheus + Grafana via Helm
+monitoring-install:
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm repo update
+	helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
+		-f helm/kube-prometheus-values.yaml \
+		-n monitoring --create-namespace
+
+# Apply custom ServiceMonitor / PrometheusRule configs
+monitoring-apply:
+	kubectl apply -f $(K8S_DIR)/servicemonitor.yaml
+
+# Delete monitoring stack
+monitoring-delete:
+	helm uninstall monitoring -n monitoring || true
+	kubectl delete ns monitoring --ignore-not-found
+
 
 ## Clean Kubernetes resources
 clean:
