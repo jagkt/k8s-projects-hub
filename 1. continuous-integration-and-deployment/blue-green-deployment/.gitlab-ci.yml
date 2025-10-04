@@ -1,0 +1,70 @@
+stages:
+  - test
+  - build
+  - deploy
+  - verify
+
+variables:
+  APP_NAME: "blue-green-app"
+  KUBE_NAMESPACE: "blue-green-$CI_ENVIRONMENT_NAME"
+
+before_script:
+  - chmod +x scripts/*.sh
+  - source config/environments.conf
+
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - ./scripts/health-check.sh
+  only:
+    - main
+    - develop
+
+build_blue:
+  stage: build
+  script:
+    - ./scripts/build-push.sh blue $CI_COMMIT_SHA
+  only:
+    - main
+    - develop
+
+build_green:
+  stage: build
+  script:
+    - ./scripts/build-push.sh green $CI_COMMIT_SHA
+  only:
+    - main
+    - develop
+
+deploy_staging:
+  stage: deploy
+  script:
+    - ./scripts/deploy.sh staging $CI_COMMIT_SHA
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+    - develop
+
+deploy_production:
+  stage: deploy
+  script:
+    - ./scripts/deploy.sh production $CI_COMMIT_SHA
+    - ./scripts/blue-green-switch.sh production
+  environment:
+    name: production
+    url: https://production.example.com
+  only:
+    - main
+  when: manual
+
+rollback_production:
+  stage: deploy
+  script:
+    - ./scripts/rollback.sh production
+  environment:
+    name: production
+  when: manual
+  only:
+    - main

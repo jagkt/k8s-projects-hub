@@ -93,3 +93,32 @@ Test --> Build --> Deploy --> Verify --> Switch
    ```bash
    cp config/environments.conf.example config/environments.conf
    # Edit with your settings
+
+## Manual Operation
+```bash
+# Deploy specific version
+./scripts/deploy.sh staging <commit-hash>
+
+# Switch traffic
+./scripts/blue-green-switch.sh production
+
+# Rollback
+./scripts/rollback.sh production
+
+# Health check
+./scripts/health-check.sh staging
+```
+
+
+
+## This CI/CD pipeline provides:
+
+1. **Automated Builds**: Parallel blue/green image building
+2. **Zero-Downtime Deployments** - Blue-green switching
+3. **Health Monitoring**: Automated health checks
+4. **Rollback Capability**: One-click rollbacks
+5. **Multi-Platform Support**: GitHub Actions, GitLab CI, Jenkins
+6. **Notifications**: Slack/email alerts
+7. **Environment Management**: Staging and production
+
+The pipeline automatically handles the entire blue-green deployment process with proper testing, verification, and rollback capabilities.

@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: blue-green-staging
+
+resources:
+  - ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: myapp-blue
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3
+  - target:
+      kind: Service
+      name: myapp-main-service
+    patch: |-
+      - op: replace
+        path: /spec/selector/version
+        value: "blue"
+
+images:
+  - name: myapp-blue
+    newTag: "1.0-staging"

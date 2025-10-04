@@ -1,53 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Green Deployment - New Version</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Deployment - New Features</title>
     <style>
-        body { 
-            background: linear-gradient(135deg, #00ff00, #004400);
-            color: white;
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
-            padding: 40px;
-            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(0,128,0,0.8);
-            padding: 30px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            max-width: 700px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        .new-feature {
-            background: rgba(255,255,255,0.2);
-            padding: 10px;
-            margin: 10px 0;
+        .badge {
+            background: #00a86b;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .new-features {
+            text-align: left;
+            margin: 2rem 0;
+            background: linear-gradient(135deg, #f8fffe, #ffffff);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #00b09b;
+        }
+        .new-features li {
+            margin: 1rem 0;
+            list-style-type: none;
+            padding-left: 2rem;
+            position: relative;
+        }
+        .new-features li:before {
+            content: "🆕";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .status {
+            background: #ff6b35;
+            color: white;
+            padding: 0.5rem 1.5rem;
             border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .metric {
+            background: rgba(0, 168, 107, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 168, 107, 0.2);
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00a86b;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Green Deployment - Version 2.0</h1>
-        <p>This is the new version under testing</p>
-        <p><strong>Status:</strong>Testing Phase</p>
+        <div class="badge">GREEN DEPLOYMENT - BETA</div>
+        <h1>Next Generation Features</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #666;">
+            Enhanced Performance • New UI • Advanced Analytics
+        </p>
         
-        <div class="new-feature">
-            <h3>New Features in v2.0:</h3>
-            <ul style="text-align: left;">
-                <li>Enhanced performance</li>
-                <li>New user interface</li>
-                <li>Advanced analytics</li>
-                <li>Improved security</li>
-            </ul>
+        <div class="new-features">
+            <h3 style="margin-bottom: 1.5rem; text-align: center; color: #00a86b;">What's New in v2.0</h3>
+            <li>Completely redesigned user interface</li>
+            <li>Machine learning-powered recommendations</li>
+            <li>Real-time analytics dashboard</li>
+            <li>Advanced security features</li>
+            <li>Mobile-first responsive design</li>
+            <li>Progressive Web App capabilities</li>
+            <li>Enhanced API with GraphQL support</li>
+        </div>
+
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value">+40%</div>
+                <div>Performance</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">+25%</div>
+                <div>Efficiency</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">-60%</div>
+                <div>Load Time</div>
+            </div>
         </div>
         
-        <div style="margin-top: 30px;">
-            <p>Deployment Time: <span id="deployment-time"></span></p>
+        <div style="margin-top: 2rem;">
+            <div class="status">SYSTEM STATUS: TESTING PHASE</div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                Version: 2.0.0-beta | Deployed: <span id="timestamp"></span>
+            </p>
         </div>
     </div>
+
     <script>
-        document.getElementById('deployment-time').textContent = new Date().toLocaleString();
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        
+        // Animate metrics
+        const metrics = document.querySelectorAll('.metric-value');
+        metrics.forEach(metric => {
+            let value = metric.textContent;
+            metric.textContent = '0%';
+            let counter = 0;
+            const target = parseInt(value.replace(/[+%-]/g, ''));
+            const increment = target / 50;
+            
+            const updateMetric = () => {
+                if (counter < target) {
+                    counter += increment;
+                    metric.textContent = value.replace(/\d+/, Math.round(counter));
+                    setTimeout(updateMetric, 30);
+                } else {
+                    metric.textContent = value;
+                }
+            };
+            updateMetric();
+        });
     </script>
 </body>
 </html>

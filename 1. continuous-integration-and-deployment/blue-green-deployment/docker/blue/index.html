@@ -1,37 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Blue Deployment - Stable</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Deployment - Stable Production</title>
     <style>
-        body { 
-            background: linear-gradient(135deg, #0000ff, #0044ff);
-            color: white;
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
-            padding: 40px;
-            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(0,0,128,0.8);
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .badge {
+            background: #0044cc;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .features {
+            text-align: left;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
             border-radius: 10px;
+        }
+        .features li {
+            margin: 0.5rem 0;
+            list-style-type: none;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00ff00;
+            font-weight: bold;
+        }
+        .status {
+            background: #00cc00;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Blue Deployment - Version 1.0</h1>
-        <p>This is the stable production environment</p>
-        <p><strong>Status:</strong>Active and Healthy</p>
-        <p><strong>Features:</strong> Core functionality, tested and verified</p>
-        <div style="margin-top: 30px;">
-            <p>Deployment Time: <span id="deployment-time"></span></p>
+        <div class="badge">BLUE DEPLOYMENT</div>
+        <h1>Production Environment</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+            Stable • Tested • Reliable
+        </p>
+        
+        <div class="features">
+            <h3 style="margin-bottom: 1rem; text-align: center;">Core Features</h3>
+            <li>Enterprise-grade stability</li>
+            <li>24/7 monitoring enabled</li>
+            <li>Automated backups</li>
+            <li>Security patches applied</li>
+            <li>Performance optimized</li>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <div class="status">SYSTEM STATUS: OPERATIONAL</div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                Version: 1.0.0 | Last Updated: <span id="timestamp"></span>
+            </p>
         </div>
     </div>
+
     <script>
-        document.getElementById('deployment-time').textContent = new Date().toLocaleString();
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        
+        // Add some interactive elements
+        setInterval(() => {
+            const status = document.querySelector('.status');
+            status.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                status.style.transform = 'scale(1)';
+            }, 200);
+        }, 5000);
     </script>
 </body>
 </html>
