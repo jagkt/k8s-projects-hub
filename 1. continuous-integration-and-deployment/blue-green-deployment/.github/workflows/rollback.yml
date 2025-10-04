@@ -1,0 +1,27 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to rollback'
+        required: true
+        type: choice
+        options:
+        - staging
+        - production
+      version:
+        description: 'Version to rollback to'
+        required: false
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Rollback Deployment
+      run: |
+        chmod +x scripts/rollback.sh
+        ./scripts/rollback.sh ${{ github.event.inputs.environment }}

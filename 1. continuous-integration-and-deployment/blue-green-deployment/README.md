@@ -53,7 +53,7 @@ Blue-green deployment is a technique that reduces downtime by running two identi
 - kubectl configured on master node
 - Master node IP: 192.168.1.100 (update in config/settings.conf)
 
-## Quick Start Guide
+<!-- ## Quick Start Guide
 
 ### Step 1: Initial Setup
 ```bash
@@ -114,4 +114,4 @@ Check services: kubectl get svc -A
 View logs: kubectl logs <pod-name>
 
 Support
-For issues related to this deployment, check the Kubernetes logs and ensure all prerequisites are met before running the scripts.
+For issues related to this deployment, check the Kubernetes logs and ensure all prerequisites are met before running the scripts. -->

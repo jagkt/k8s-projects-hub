@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+    
+    environment {
+        REGISTRY = credentials('docker-registry')
+        KUBECONFIG = credentials('kubeconfig')
+        APP_NAME = 'blue-green-app'
+    }
+    
+    parameters {
+        choice(
+            name: 'DEPLOY_ENV',
+            choices: ['staging', 'production'],
+            description: 'Deployment environment'
+        )
+        booleanParam(
+            name: 'AUTO_SWITCH',
+            defaultValue: false,
+            description: 'Automatically switch traffic after deployment'
+        )
+    }
+    
+    stages {
+        stage('Test') {
+            steps {
+                sh 'chmod +x scripts/health-check.sh'
+                sh './scripts/health-check.sh'
+            }
+        }
+        
+        stage('Build') {
+            parallel {
+                stage('Build Blue') {
+                    steps {
+                        sh './scripts/build-push.sh blue ${GIT_COMMIT}'
+                    }
+                }
+                stage('Build Green') {
+                    steps {
+                        sh './scripts/build-push.sh green ${GIT_COMMIT}'
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                script {
+                    sh "./scripts/deploy.sh ${params.DEPLOY_ENV} ${GIT_COMMIT}"
+                    
+                    if (params.AUTO_SWITCH) {
+                        sh "./scripts/blue-green-switch.sh ${params.DEPLOY_ENV}"
+                    }
+                }
+            }
+        }
+        
+        stage('Verify') {
+            steps {
+                sh "./scripts/health-check.sh ${params.DEPLOY_ENV}"
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+        failure {
+            slackSend channel: '#deployments', message: "Deployment failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+        }
+        success {
+            slackSend channel: '#deployments', message: "Deployment successful: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+        }
+    }
+}

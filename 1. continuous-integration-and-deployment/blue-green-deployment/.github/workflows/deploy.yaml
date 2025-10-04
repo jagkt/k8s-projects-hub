@@ -1,0 +1,98 @@
+name: Blue-Green Deployment Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+      version:
+        description: 'Deploy Version'
+        required: false
+        type: string
+
+env:
+  REGISTRY: ${{ secrets.REGISTRY_URL }}
+  IMAGE_NAME: ${{ github.repository }}
+  KUBE_NAMESPACE: blue-green-app
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run static analysis
+      run: |
+        echo "Running code quality checks..."
+        # Add your linting commands here
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [blue, green]
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Docker images
+      run: |
+        chmod +x scripts/build-push.sh
+        ./scripts/build-push.sh ${{ matrix.version }} ${{ github.sha }}
+
+    - name: Push to Registry
+      run: |
+        docker push $REGISTRY/$IMAGE_NAME-${{ matrix.version }}:${{ github.sha }}
+        docker push $REGISTRY/$IMAGE_NAME-${{ matrix.version }}:latest
+
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Deploy to Staging
+      run: |
+        chmod +x scripts/deploy.sh
+        ./scripts/deploy.sh staging ${{ github.sha }}
+
+    - name: Run Health Checks
+      run: |
+        chmod +x scripts/health-check.sh
+        ./scripts/health-check.sh staging
+
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Deploy to Production
+      run: |
+        chmod +x scripts/deploy.sh
+        ./scripts/deploy.sh production ${{ github.sha }}
+
+    - name: Switch Traffic
+      run: |
+        chmod +x scripts/blue-green-switch.sh
+        ./scripts/blue-green-switch.sh production
+
+    - name: Verify Deployment
+      run: |
+        chmod +x scripts/health-check.sh
+        ./scripts/health-check.sh production
