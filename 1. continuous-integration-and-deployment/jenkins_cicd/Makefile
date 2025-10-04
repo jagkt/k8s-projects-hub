@@ -1,7 +1,7 @@
 # Variables
 APP_NAME=nodejs-app
 DOCKER_REGISTRY=your-dockerhub-username
-IMAGE_TAG=1.0.3
+IMAGE_TAG=latest
 K8S_NAMESPACE=default
 
 # Paths

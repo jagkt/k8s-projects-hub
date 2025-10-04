@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Green Deployment - New Version</title>
+    <style>
+        body { 
+            background: linear-gradient(135deg, #00ff00, #004400);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0,128,0,0.8);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .new-feature {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Green Deployment - Version 2.0</h1>
+        <p>This is the new version under testing</p>
+        <p><strong>Status:</strong>Testing Phase</p>
+        
+        <div class="new-feature">
+            <h3>New Features in v2.0:</h3>
+            <ul style="text-align: left;">
+                <li>Enhanced performance</li>
+                <li>New user interface</li>
+                <li>Advanced analytics</li>
+                <li>Improved security</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <p>Deployment Time: <span id="deployment-time"></span></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('deployment-time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blue Deployment - Stable</title>
+    <style>
+        body { 
+            background: linear-gradient(135deg, #0000ff, #0044ff);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0,0,128,0.8);
+            padding: 30px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Blue Deployment - Version 1.0</h1>
+        <p>This is the stable production environment</p>
+        <p><strong>Status:</strong>Active and Healthy</p>
+        <p><strong>Features:</strong> Core functionality, tested and verified</p>
+        <div style="margin-top: 30px;">
+            <p>Deployment Time: <span id="deployment-time"></span></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('deployment-time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
