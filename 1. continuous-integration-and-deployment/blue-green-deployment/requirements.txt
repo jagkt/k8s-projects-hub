@@ -1,5 +1,4 @@
 ### requirements.txt
-```text
 kubernetes>=24.2.0
 docker>=6.0.0
 pyyaml>=6.0
