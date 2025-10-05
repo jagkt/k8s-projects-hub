@@ -1,45 +1,7 @@
-# Blue-Green Kubernetes Deployment
-
-A complete blue-green deployment setup for Kubernetes on Alpine VMs.
-
-## Prerequisites
-- Kubernetes cluster with 3 nodes (1 master, 2 workers)
-- Alpine Linux VMs
-- Docker installed on all nodes
-- kubectl configured on master
-
-## Quick Start
-
-1. **Setup Prerequisites:**
-   ```bash
-   chmod +x scripts/*.sh
-   ./scripts/01-setup-prerequisites.sh
-
-
-
-
-Usage Instructions
-Extract the zip file to your master node
-
-Update configuration: Edit config/environment.conf with your master node IP
-
-Make scripts executable: chmod +x scripts/*.sh
-
-Run in sequence:
-
-./scripts/01-setup-prerequisites.sh
-
-./scripts/02-build-push-images.sh
-
-./scripts/03-deploy-blue.sh
-
-./scripts/04-deploy-green.sh
-
-
 
 # Blue-Green Kubernetes Deployment Project
 
-This project demonstrates a blue-green deployment strategy on a Kubernetes cluster running on Alpine Linux VMs.
+This project demonstrates a blue-green deployment strategy on a Kubernetes cluster running on Alpine Linux VMs. this also include an automated muliti-pipeline implementation for Kubernetes with zero downtime.
 
 ## Project Overview
 
@@ -50,36 +12,23 @@ Blue-green deployment is a technique that reduces downtime by running two identi
 - Kubernetes cluster with 3 nodes (1 master, 2 workers)
 - Alpine Linux VMs
 - Docker installed on all nodes
-- kubectl configured on master node
-- Master node IP: 192.168.1.100 (update in config/settings.conf)
-
-
-
-
-
-
-# Blue-Green Kubernetes CI/CD Pipeline
-
-Automated blue-green deployment pipeline for Kubernetes with zero downtime.
-
-## Prerequisites
-- Kubernetes cluster with 3 nodes (1 master, 2 workers)
-- Alpine Linux VMs
-- Docker installed on all nodes
 - kubectl configured on master
 
 ## Pipeline Features
-Test --> Build --> Deploy --> Verify --> Switch
+
+Stages:  Test --> Build --> Deploy --> Verify --> Switch
+
 - Automated testing and building
 - Parallel blue/green image builds
-- Zero-downtime deployments
+- Zero-downtime deployments: Blue-green switching
 - Automated traffic switching
 - Health checks and rollback
 - Multi-environment support
 - Slack/email notifications
+- Environment Management: Staging and production
 
-## Pipeline Stages
-Test --> Build --> Deploy --> Verify --> Switch
+The pipeline automatically handles the entire blue-green deployment process with proper testing, verification, and rollback capabilities.
+
 
 ## Supported CI/CD Platforms
 
@@ -89,10 +38,11 @@ Test --> Build --> Deploy --> Verify --> Switch
 
 ## Quick Start
 
-1. **Configure Environment:**
+**Configure Environment:**
    ```bash
    cp config/environments.conf.example config/environments.conf
    # Edit with your settings
+   ```
 
 ## Manual Operation
 ```bash
@@ -109,16 +59,3 @@ Test --> Build --> Deploy --> Verify --> Switch
 ./scripts/health-check.sh staging
 ```
 
-
-
-## This CI/CD pipeline provides:
-
-1. **Automated Builds**: Parallel blue/green image building
-2. **Zero-Downtime Deployments** - Blue-green switching
-3. **Health Monitoring**: Automated health checks
-4. **Rollback Capability**: One-click rollbacks
-5. **Multi-Platform Support**: GitHub Actions, GitLab CI, Jenkins
-6. **Notifications**: Slack/email alerts
-7. **Environment Management**: Staging and production
-
-The pipeline automatically handles the entire blue-green deployment process with proper testing, verification, and rollback capabilities.
